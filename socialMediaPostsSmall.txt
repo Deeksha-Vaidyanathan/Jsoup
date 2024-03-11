@@ -1,0 +1,6 @@
+classicalGuy "Florida here we come!"
+janeIzC00l "Lots of fun here in the windy city!"
+pet_lover101 "Dogs are the best! I wish I had a house full of them."
+always_an_adventure "I can't believe you didn't say happy birthday to me."
+thestarsareouttonight "Congratulations on your new kitten!"
+painted_mountain "Trouble in paradise, it's raining cats and dogs out here."
