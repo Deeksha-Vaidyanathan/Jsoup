@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"java.project.referencedLibraries": [
+			"lib/**/*.jar",
+			"c:\\Users\\P4\\Downloads\\jsoup-1.17.2.jar",
+			"/Users/deekshavaidyanathan/Downloads/jsoup-1.17.2.jar"
+		]
+	}
+}
