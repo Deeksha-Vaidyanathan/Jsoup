@@ -1,48 +1,81 @@
-/*
- * Problem 2 Sell My Pet Food
- */
-
-import org.jsoup.Jsoup;
-import org.jsoup.*;
-import org.jsoup.nodes.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.attribute.PosixFileAttributes;
+import java.util.ArrayList;
+
 
 public class TargetedAd {
+    public static int countPosts() {
+        int count = 0;
+        try {
+            String fileName = "socialMediaPosts.txt";
+        BufferedReader reader = new BufferedReader(new FileReader(fileName));
+            
+            // Read each line from the file
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.contains("Reviewer:")) {
+                 count++;                
+            }
+        }
+            
+            // Close the BufferedReader
+            reader.close();
+        }
+        catch (IOException e) {
+            // Handle any potential IO exceptions
+            e.printStackTrace();
+        }
 
-  public static void main(String[] args) throws IOException
-  
-  {
-    Document doc = Jsoup.connect("https://www.amazon.com/s?k=pants&crid=WR83RDWNI1UE&sprefix=pants%2Caps%2C164&ref=nb_sb_noss_1").get();
-    /*  
-     * TODO:
-     * PREPARATION WORK
-     * (1) Create a file called targetWords.txt. Populate this file with words on each line that
-     *     you think would determine if a user is a dog or cat owner.
-     * 
-     * PROGRAMMING
-     * (2) Create a new DataCollector object and set the data to "socialMediaPostsSmall.txt" and "targetWords.txt"
-     *     Important: Use the socialMedialPostsSmall to create your algorithm. Using a small file will help you 
-     *     generate your solution quicker and give you the ability to double check your work.
-     * (3) Create a String variable to hold the names of all the user. (The first word of every post is 
-     *     a person's username)
-     * (4) Compare each user's post to each target word. If a user mentions a target word, add their username to 
-     *     the String of users. Separate usernames with a space. 
-     *         Hint: You can use loops to look through each word. 
-     *         Hint2: You can use indexOf to check if a word is in a user post. 
-     * (5) Once you have all the users, use your DataCollector's prepareAdvertisement method to prepare a file 
-     *     with all users and the advertisement you will send them.
-     *         Additional Info: The prepareAdvertisement creates a new file on your computer. Check the posts of
-     *         some of the usernames to make sure your algorithm worked.
-     * 
-     * THE FINAL SOLUTION
-     * (6) Your solution should work with the socialMedialPostsSmall.txt. Modify your DataCollector initialization
-     *    so you use the socialMediaPosts.txt. You should now have a larger file of users to target.
-     */
-
-
-    /* your code here */
+        return count;
+    }
     
-     
-  }
+    public static void reviewRanking() {
+        try {
+        BufferedReader reader1 = new BufferedReader(new FileReader("socialMediaPosts.txt"));
+        BufferedReader reader2 = new BufferedReader(new FileReader("targetedwords.txt"));
 
+        String line1;
+        String line2;
+
+        ArrayList<String> targwords = new ArrayList<>();
+        ArrayList<String> reviewers = new ArrayList<>();
+         
+        //while loop to create targeted words array list to traverse
+        while (((line2 = reader2.readLine()) != null)) {
+            targwords.add(line2);
+        }
+
+        //testing
+        // System.out.println(targwords); 
+        // System.out.println(smp);
+
+        // traverses targeted words and social media posts, and associates a point value of significance with each reviewer
+        // also adds the reviewer's name and the point value associated with it to the targetmarket.txt file
+        while ((line1 = reader1.readLine()) != null) {
+            int points = 0;
+            String reviewername = line1.substring(line1.indexOf(":")+2, line1.indexOf("Text"));
+            for (int i = 0; i<targwords.size(); i++) {
+                String getter = targwords.get(i);
+                    if (line1.contains(getter.substring(0, getter.indexOf("-")))) {
+                        points += Integer.parseInt(getter.substring(getter.indexOf("-")+1));                    
+                }
+            }
+            // check for duplicates
+            if ((points != 0) && (reviewers.indexOf(reviewername) == -1)) {
+                TextFileWriter.addTextToFile("targetmarket.txt", reviewername + points);
+                reviewers.add(reviewername);
+            }
+        }
+
+        reader1.close();
+        reader2.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
+
+
